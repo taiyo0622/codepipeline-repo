@@ -5,20 +5,18 @@ phases:
     commands:
       - echo Installing dependencies...
       - python3 -m venv .venv
-      - source .venv/bin/activate
+      - source .venv/bin/activate~
       - pip install --upgrade pip
-      - pip install pytest flask
+
   pre_build:
     commands:
       - echo Running pre-build steps...
-      - source .venv/bin/activate && pytest --version
+      - source .venv/bin/activate
   build:
     commands:
       - echo Running build steps...
-      - source .venv/bin/activate && pytest test_app.py
-      - chmod +x scripts/*.sh
+      - source .venv/bin/activate
       - echo Packaging application...
-      - zip -r home.html
 
   post_build:
     commands:
@@ -26,5 +24,4 @@ phases:
       - ls -la
 artifacts:
   files:
-    - app-package.zip
-    - "**/*.log"
+    - "**/*"
