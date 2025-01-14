@@ -1,27 +1,21 @@
 version: 0.2
 
 phases:
-  install:
-    commands:
-      - echo Installing dependencies...
-      - python3 -m venv .venv
-      - source .venv/bin/activate
-      - pip install --upgrade pip
-
   pre_build:
     commands:
-      - echo Running pre-build steps...
-      - source .venv/bin/activate
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 415619022182.dkr.ecr.ap-southeast-1.amazonaws.com
   build:
     commands:
-      - echo Running build steps...
-      - source .venv/bin/activate
-      - echo Packaging application...
-
+      - echo Building Docker image...
+      - docker build -t microservice:latest .
+      - docker tag microservice:latest 415619022182.dkr.ecr.ap-southeast-1.amazonaws.com/microservice:latest
   post_build:
     commands:
-      - echo Build completed successfully.
-      - ls -la
+      - echo Pushing Docker image to ECR...
+      - docker push 415619022182.dkr.ecr.ap-southeast-1.amazonaws.com/microservice:latest
+
 artifacts:
   files:
     - "**/*"
+  discard-paths: yes
