@@ -9,11 +9,11 @@ phases:
     commands:
       - echo Building Docker image...
       - docker build -t microservice:latest .
-      - docker tag microservice:latest 336938263666.dkr.ecr.ap-southeast-1.amazonaws.com:latest
+      - docker tag microservice:latest 336938263666.dkr.ecr.ap-southeast-1.amazonaws.com/flask:latest
   post_build:
     commands:
       - echo Pushing Docker image to ECR...
-      - docker push 336938263666.dkr.ecr.ap-southeast-1.amazonaws.com/microservice:latest
+      - docker push 336938263666.dkr.ecr.ap-southeast-1.amazonaws.com/flask:latest
 
 artifacts:
   files:
